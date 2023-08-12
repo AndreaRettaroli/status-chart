@@ -30,7 +30,7 @@ ChartJS.register(
 export function LineChart() {
   const dataset = generate(HOURS, INTERVAL);
   const options = {
-    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top" as const,
