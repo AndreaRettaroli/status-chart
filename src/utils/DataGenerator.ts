@@ -1,25 +1,18 @@
-interface DataModel {
-    timestamp: string;
-    status: { key: number, value: string };
-    fan: { key: number, value: string };
-    compressor: { key: number, value: string };
-    light: { key: number, value: string };
-}
-
+import { Status, dataModel, status } from "../types";
 
 
 export function generate(hours: number, interval: number) {
-    const data: DataModel[] = []
+    const data: dataModel[] = []
     const startTimestamp = new Date();
     startTimestamp.setHours(startTimestamp.getHours() - hours);
 
-    const statusOptions = ["On", "Off", "Invalid"];
+    const statusOptions: status[] = [Status.ON, Status.OFF, Status.INVALID];
     const keys = ["light", "compressor", "fan", "status"];
 
     let currentTimestamp = new Date(startTimestamp);
 
     while (currentTimestamp <= new Date()) {
-        const props: { key: number, value: string }[] = []
+        const props: { key: number, value: status }[] = []
 
         keys.forEach((_: string, index: number) => {
             const randomStatus = statusOptions[Math.floor(Math.random() * statusOptions.length)];
@@ -28,7 +21,7 @@ export function generate(hours: number, interval: number) {
             });
         });
 
-        const element: DataModel = {
+        const element: dataModel = {
             timestamp: currentTimestamp.toLocaleTimeString(),
             status: props[3],
             fan: props[2],

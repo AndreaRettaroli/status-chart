@@ -12,8 +12,9 @@ import {
   TimeScale,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { generate } from "../utils/DataGenerator";
 import { HOURS, INTERVAL } from "../constants/constants";
+import { Status, ctx } from "../types";
+import { assignLabel, getColor, generate } from "../utils";
 
 ChartJS.register(
   CategoryScale,
@@ -26,11 +27,6 @@ ChartJS.register(
   TimeScale
 );
 
-type ctx = {
-  p0: { parsed: { x: number } };
-  p1: { parsed: { x: number } };
-};
-
 export function LineChart() {
   const dataset = generate(HOURS, INTERVAL);
   const options = {
@@ -41,9 +37,17 @@ export function LineChart() {
         labels: {
           generateLabels() {
             return [
-              { text: "On", fillStyle: getColor("On"), padding: 10 },
-              { text: "Off", fillStyle: getColor("Off"), padding: 10 },
-              { text: "Invalid", fillStyle: getColor("Invalid"), padding: 10 },
+              { text: Status.ON, fillStyle: getColor(Status.ON), padding: 10 },
+              {
+                text: Status.OFF,
+                fillStyle: getColor(Status.OFF),
+                padding: 10,
+              },
+              {
+                text: Status.INVALID,
+                fillStyle: getColor(Status.INVALID),
+                padding: 10,
+              },
             ];
           },
         },
@@ -60,7 +64,7 @@ export function LineChart() {
               label += ": ";
             }
             if (context.parsed.y !== null && context.parsed.x !== null) {
-              label = assignLabel(context.parsed.x, context.parsed.y);
+              label = assignLabel(dataset, context.parsed.x, context.parsed.y);
             }
             return label;
           },
@@ -96,34 +100,6 @@ export function LineChart() {
     4: "Status",
   };
 
-  const assignLabel = (x: number, y: number): string => {
-    switch (y) {
-      case 4:
-        return dataset[x].status.value;
-      case 3:
-        return dataset[x].fan.value;
-      case 2:
-        return dataset[x].compressor.value;
-      case 1:
-        return dataset[x].light.value;
-      default:
-        return dataset[x].status.value;
-    }
-  };
-
-  const getColor = (status: string): string => {
-    switch (status) {
-      case "On":
-        return "rgb(42, 157, 143)";
-      case "Off":
-        return "rgb(231, 111, 81)";
-      case "Invalid":
-        return "rgb(142, 202, 230)";
-      default:
-        return "black"; // Default color for any other status
-    }
-  };
-
   const genericOptions = {
     fill: true,
     lineTension: 0.1,
@@ -137,7 +113,7 @@ export function LineChart() {
     labels: dataset.map((element) => element.timestamp),
     datasets: [
       {
-        label: "status",
+        label: "Status",
         data: dataset.map((element) => element.status.key),
         backgroundColor: dataset.map((element) =>
           getColor(element.status.value)
