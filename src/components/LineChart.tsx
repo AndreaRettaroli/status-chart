@@ -12,7 +12,7 @@ import {
   TimeScale,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { generateData } from "../utils/GenerateData";
+import { generate } from "../utils/DataGenerator";
 import { HOURS, INTERVAL } from "../constants/constants";
 
 ChartJS.register(
@@ -32,7 +32,7 @@ type ctx = {
 };
 
 export function LineChart() {
-  const dataset = generateData(HOURS, INTERVAL);
+  const dataset = generate(HOURS, INTERVAL);
   const options = {
     responsive: true,
     plugins: {

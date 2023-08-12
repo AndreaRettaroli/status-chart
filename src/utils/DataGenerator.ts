@@ -8,7 +8,7 @@ interface DataModel {
 
 
 
-export function generateData(hours: number, interval: number) {
+export function generate(hours: number, interval: number) {
     const data: DataModel[] = []
     const startTimestamp = new Date();
     startTimestamp.setHours(startTimestamp.getHours() - hours);
