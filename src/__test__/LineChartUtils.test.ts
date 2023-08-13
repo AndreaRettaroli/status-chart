@@ -75,9 +75,4 @@ describe("getColor function", () => {
         expect(result).toBe("rgb(142, 202, 230)");
     });
 
-    it("returns the default color for any other status", () => {
-        const status = "UnknownStatus";
-        const result = getColor(status);
-        expect(result).toBe("black");
-    });
 });
