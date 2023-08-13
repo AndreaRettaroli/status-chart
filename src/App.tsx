@@ -1,7 +1,7 @@
 import "./App.css";
-import { LineChart } from "./components/LineChart";
+import LineChart from "./components/LineChart";
 
-function App() {
+const App: React.FC = () => {
   return (
     <>
       <div className="chart-container">
@@ -9,6 +9,6 @@ function App() {
       </div>
     </>
   );
-}
+};
 
 export default App;

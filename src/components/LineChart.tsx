@@ -27,7 +27,7 @@ ChartJS.register(
   TimeScale
 );
 
-export function LineChart() {
+const LineChart: React.FC = () => {
   const dataset = generate(HOURS, INTERVAL);
   const options = {
     maintainAspectRatio: false,
@@ -161,4 +161,6 @@ export function LineChart() {
     ],
   };
   return <Line options={options} data={data} height={300} width={1000} />;
-}
+};
+
+export default LineChart;
