@@ -1,0 +1,14 @@
+version: "3.7"
+
+services:
+  status-chart:
+    image: status-chart
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ".:/app"
+      - "/app/node_modules"
+    ports:
+      - 5173:5173
+    restart: always
