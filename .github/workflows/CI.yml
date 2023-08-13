@@ -1,0 +1,39 @@
+name: React TS CI
+
+on:
+  push:
+
+permissions:
+  contents: write
+  checks: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run coverage test
+        run: npm run coverage
+
+      - name: Add vercel config file to remove coverage deploy on vercel
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: "vercel.json"
+          json: '{"git": {"deploymentEnabled": {"coverage-deploy": false}}}'
+          dir: "coverage/"
+
+      - name: Upload coverage to GitHubPage
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: coverage # The folder the action should deploy.
+          branch: coverage-deploy # The branch the action should deploy to.
