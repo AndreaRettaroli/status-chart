@@ -4,7 +4,7 @@ import LineChart from "./components/LineChart";
 const App: React.FC = () => {
   return (
     <>
-      <div className="chart-container">
+      <div className="chart-container" data-testid="chart-container">
         <LineChart />
       </div>
     </>
